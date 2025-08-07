@@ -1,16 +1,24 @@
 import React from 'react';
 import './style/Login.css';
 
+
 const Login = () => {
   return (
-    <div className="login-container">
+    <div className="login-wrapper">
+ 
+    <div className="login-form-section">
       <div className="login-form">
         <div className="back-button">
           <span>← Back</span>
         </div>
-        
-        <h1 className="login-title">SIGN IN</h1>
-        
+        <h1 className="heading">
+    <span className="the">WE</span>
+    <span className="chat">LC</span>
+    
+    <span className="bot">OME</span>
+  </h1>
+       <h1 className="login-title">SIGN IN</h1>
+      
         <form>
           <div className="form-group">
             <label htmlFor="email">Email</label>
@@ -54,7 +62,32 @@ const Login = () => {
         </footer>
       </div>
     </div>
-  );
+
+    {/* Right Side - Video */}
+    <div className="video-section">
+      <div className="video-container">
+        <video
+          className="login-video"
+          autoPlay
+          muted
+          loop
+          playsInline
+          poster="https://images.pexels.com/photos/3861969/pexels-photo-3861969.jpeg?auto=compress&cs=tinysrgb&w=800"
+        >
+          <source src="https://sample-videos.com/zip/10/mp4/SampleVideo_1280x720_1mb.mp4" type="video/mp4" />
+          <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" type="video/mp4" />
+        </video>
+        <div className="video-overlay">
+          <div className="video-content">
+            <h2 className="video-title">Welcome Back</h2>
+            <p className="video-description">Join thousands of users who trust our platform for their daily workflow</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+);
 };
 
 export default Login;
