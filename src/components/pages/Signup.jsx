@@ -1,7 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-
-import './style/Login.css';
+import './style/Signup.css';
 
 
 const Login = () => {
@@ -22,6 +20,16 @@ const Login = () => {
        <h1 className="login-title">Sign in</h1>
       
         <form>
+        <div className="form-group">
+            <label htmlFor="username">Username</label>
+            <input 
+              type="text" 
+              id="username"
+              placeholder="Enter your Username" 
+              className="form-input"
+            />
+          </div>
+        
           <div className="form-group">
             <label htmlFor="email">Email</label>
             <input 
@@ -45,7 +53,7 @@ const Login = () => {
           </div>
           <a href="#" className="forgot-password">Forgot Password?</a>
             
-          <button type="submit" className="sign-in-btn">Sign in</button>
+          <button type="submit" className="sign-in-btn">Sign Up</button>
         </form>
         
     {/* <div className='Social-Login-container'>
@@ -82,11 +90,11 @@ const Login = () => {
         Continue with Pinterest
       </button>
     </div> */}
-{/*Iam giving route here so as user click singup must redirct to that page*/}
-<p className="signup-text">
-            Don't have an account? <Link to="/signup" className="signup-link">Sign up</Link>
-          </p>
-  
+
+        <p className="signup-text">
+          want to login? <a href="#" className="signup-link">Login</a>
+        </p>
+        
         <div className="legal-text">
           <p>By signing in, you are agreeing to the <a href="#">Terms of Service</a>, <a href="#">Acceptable Use Policy</a>, and <a href="#">Privacy Policy</a>.</p>
         </div>

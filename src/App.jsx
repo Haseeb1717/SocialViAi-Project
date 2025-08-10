@@ -2,13 +2,14 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Login from './components/pages/Login';
+import Signup from './components/pages/Signup'; // <-- import your signup page
 
 const App = () => {
   return (
     <Router>
       <Routes>
         <Route path="/" element={<Login />} />
-        {/* Add more routes here later */}
+        <Route path="/signup" element={<Signup />} /> {/* <-- signup route */}
       </Routes>
     </Router>
   );
