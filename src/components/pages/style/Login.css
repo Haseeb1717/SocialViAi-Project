@@ -722,3 +722,12 @@ body {
     transition-duration: 0.01ms !important;
   }
 }
+.input-error {
+  border: 1px solid #e74c3c;
+}
+
+.error-text {
+  color: #e74c3c;
+  font-size: 0.85rem;
+  margin-top: 4px;
+}
