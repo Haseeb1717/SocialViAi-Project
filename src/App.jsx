@@ -1,5 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import LandingPage from './components/pages/Landing-page'; // import your landing page
 import Login from './components/pages/Login';
 import Signup from './components/pages/Signup';
 import ForgetPassword from './components/pages/Forget-Password';
@@ -9,11 +10,11 @@ const App = () => {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Login />} />
+        <Route path="/" element={<LandingPage />} /> {/* Landing page at root */}
+        <Route path="/login" element={<Login />} />  {/* Move login to /login */}
         <Route path="/signup" element={<Signup />} />
         <Route path="/forget-password" element={<ForgetPassword />} />
         <Route path="/reset-password" element={<ResetPassword />} />
-    
       </Routes>
     </Router>
   );

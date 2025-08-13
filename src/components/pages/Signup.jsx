@@ -1,114 +1,115 @@
-import React, { useState } from "react";
-import { Eye, EyeOff } from "lucide-react";
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
+import { Eye, EyeOff, CheckCircle, XCircle } from 'lucide-react';
 import './style/Signup.css';
 
-// Email regex to check basic email format
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
 
-// Password validation rules
+const usernameRules = {
+  minLength: { value: 3, message: 'At least 3 characters' },
+  maxLength: { value: 20, message: 'Maximum 20 characters' },
+  pattern: {
+    value: /^[a-zA-Z0-9_-]+$/,
+    message: 'Only letters, numbers, _ and -'
+  },
+  validate: {
+    noSpaces: (value) => 
+      !value || /^\S.*\S$|^\S$/.test(value) || 'No leading or trailing spaces'
+  }
+};
+
 const passwordRules = {
-  minLength: 8,
-  hasUpperCase: /[A-Z]/,
-  hasLowerCase: /[a-z]/,
-  hasNumber: /\d/,
-  hasSpecialChar: /[!@#$%^&*(),.?":{}|<>]/,
+  minLength: { value: 8, message: 'Minimum 8 characters' },
+  validate: {
+    hasUpperCase: (value) => 
+      /[A-Z]/.test(value) || 'At least 1 uppercase letter',
+    hasLowerCase: (value) => 
+      /[a-z]/.test(value) || 'At least 1 lowercase letter',
+    hasNumber: (value) => 
+      /\d/.test(value) || 'At least 1 number',
+    hasSpecialChar: (value) => 
+      /[!@#$%^&*(),.?":{}|<>]/.test(value) || 'At least 1 special character (!@#$...)'
+  }
 };
 
-// Function to validate password and return error string or empty if valid
-const validatePassword = (pwd) => {
-  if (pwd.length < passwordRules.minLength)
-    return "Password must be at least 8 characters";
-  if (!passwordRules.hasUpperCase.test(pwd))
-    return "Must contain at least 1 uppercase letter";
-  if (!passwordRules.hasLowerCase.test(pwd))
-    return "Must contain at least 1 lowercase letter";
-  if (!passwordRules.hasNumber.test(pwd))
-    return "Must contain at least 1 number";
-  if (!passwordRules.hasSpecialChar.test(pwd))
-    return "Must contain at least 1 special character";
-  return ""; // no errors, valid password
+const validateUsername = (username) => {
+  if (!username) return {};
+  return {
+    minLength: username.length >= 3,
+    maxLength: username.length <= 20,
+    validChars: /^[a-zA-Z0-9_-]+$/.test(username),
+    noSpaces: /^\S.*\S$|^\S$/.test(username)
+  };
 };
 
-const Login = () => {
-  // Inputs state
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  
-  // Errors state
-  const [errors, setErrors] = useState({ email: "", password: "" });
-  
-  // Focus state to show errors only when focused
-  const [isFocused, setIsFocused] = useState({ email: false, password: false });
-  
-  // Password visibility toggle
+const validatePassword = (password) => {
+  if (!password) return {};
+  return {
+    minLength: password.length >= 8,
+    hasUpperCase: /[A-Z]/.test(password),
+    hasLowerCase: /[a-z]/.test(password),
+    hasNumber: /\d/.test(password),
+    hasSpecialChar: /[!@#$%^&*(),.?":{}|<>]/.test(password)
+  };
+};
+
+const Signup = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const [focusedField, setFocusedField] = useState('');
 
-  // Handle input changes & validation
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-
-    if (name === "email") {
-      setEmail(value);
-      if (isFocused.email && !emailRegex.test(value)) {
-        setErrors((prev) => ({ ...prev, email: "Invalid email format" }));
-      } else {
-        setErrors((prev) => ({ ...prev, email: "" }));
-      }
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors, isValid, touchedFields, isSubmitting }
+  } = useForm({
+    mode: 'onChange',
+    defaultValues: {
+      username: '',
+      email: '',
+      password: ''
     }
+  });
 
-    if (name === "password") {
-      setPassword(value);
-      if (isFocused.password) {
-        const pwdError = validatePassword(value);
-        setErrors((prev) => ({ ...prev, password: pwdError }));
-      } else {
-        setErrors((prev) => ({ ...prev, password: "" }));
-      }
+  const watchedValues = watch();
+  const { username = '', email = '', password = '' } = watchedValues;
+
+  const usernameValidation = validateUsername(username);
+  const passwordValidation = validatePassword(password);
+  
+  const allUsernameValid = Object.values(usernameValidation).every(Boolean);
+  const allPasswordValid = Object.values(passwordValidation).every(Boolean);
+  const emailIsValid = emailRegex.test(email);
+
+  const shouldShowUsernameErrors = (focusedField === 'username' || touchedFields.username) && username;
+  const shouldShowEmailErrors = (focusedField === 'email' || touchedFields.email) && email;
+  const shouldShowPasswordErrors = (focusedField === 'password' || touchedFields.password) && password;
+
+  const onSubmit = async (data) => {
+    try {
+      console.log('Form submitted:', data);
+      // Add your submission logic here
+    } catch (error) {
+      console.error('Submission error:', error);
     }
   };
 
-  // On focus - mark focused and show errors immediately if invalid
-  const handleFocus = (field) => {
-    setIsFocused((prev) => ({ ...prev, [field]: true }));
-
-    if (field === "email" && !emailRegex.test(email)) {
-      setErrors((prev) => ({ ...prev, email: "Invalid email format" }));
-    }
-    if (field === "password") {
-      const pwdError = validatePassword(password);
-      setErrors((prev) => ({ ...prev, password: pwdError }));
-    }
-  };
-
-  // On blur - remove focus and clear errors
-  const handleBlur = (field) => {
-    setIsFocused((prev) => ({ ...prev, [field]: false }));
-    setErrors((prev) => ({ ...prev, [field]: "" }));
-  };
-
-  // Toggle password visibility
-  const togglePasswordVisibility = () => setShowPassword((v) => !v);
-
-  // Submit form validation
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    let emailError = "";
-    let passwordError = "";
-
-    if (!emailRegex.test(email)) emailError = "Invalid email format";
-    if (validatePassword(password) !== "")
-      passwordError = validatePassword(password);
-
-    setErrors({ email: emailError, password: passwordError });
-
-    if (emailError || passwordError) {
-      alert("Fix errors before submitting!");
-      return;
-    }
-
-    alert("Form submitted successfully!");
-    console.log({ email, password });
+  const renderValidationItem = (isValid, text, show = true) => {
+    if (!show) return null;
+    
+    return (
+      <div className="validation-item" key={text}>
+        {isValid ? (
+          <CheckCircle color="green" size={16} />
+        ) : (
+          <XCircle color="red" size={16} />
+        )}
+        <span style={{ color: isValid ? 'green' : 'red', marginLeft: 8 }}>
+          {text}
+        </span>
+      </div>
+    );
   };
 
   return (
@@ -123,80 +124,173 @@ const Login = () => {
             <span className="chat">LC</span>
             <span className="bot">OME</span>
           </h1>
-          <h1 className="login-title">Sign in</h1>
+          <h1 className="login-title">Sign Up</h1>
 
-          <form onSubmit={handleSubmit} noValidate>
+          <form onSubmit={handleSubmit(onSubmit)} noValidate>
+            {/* Username */}
+            <div className="form-group">
+              <label htmlFor="username">Username</label>
+              <div className="input-wrapper">
+                <input
+                  type="text"
+                  id="username"
+                  placeholder="Choose a username"
+                  className={`form-input ${
+                    shouldShowUsernameErrors && !allUsernameValid ? 'input-error' : ''
+                  }`}
+                  {...register('username', usernameRules)}
+                  onFocus={() => setFocusedField('username')}
+                  onBlur={() => setFocusedField('')}
+                />
+                {allUsernameValid && username.length > 0 && (
+                  <CheckCircle 
+                    color="green" 
+                    size={20} 
+                    className="input-valid-icon"
+                    style={{ 
+                      right: '15px', 
+                      position: 'absolute', 
+                      top: '50%', 
+                      transform: 'translateY(-50%)',
+                      pointerEvents: 'none'
+                    }}
+                  />
+                )}
+              </div>
+              {shouldShowUsernameErrors && !allUsernameValid && (
+                <div className="validation-container">
+                  {renderValidationItem(usernameValidation.minLength, 'At least 3 characters')}
+                  {renderValidationItem(usernameValidation.maxLength, 'Maximum 20 characters')}
+                  {renderValidationItem(usernameValidation.validChars, 'Only letters, numbers, _ and -')}
+                  {renderValidationItem(usernameValidation.noSpaces, 'No leading or trailing spaces')}
+                </div>
+              )}
+            </div>
+
+            {/* Email */}
             <div className="form-group">
               <label htmlFor="email">Email</label>
-              <input
-                type="email"
-                id="email"
-                name="email"
-                placeholder="example@gmail.com"
-                className={`form-input ${errors.email ? "input-error" : ""}`}
-                value={email}
-                onChange={handleChange}
-                onFocus={() => handleFocus("email")}
-                onBlur={() => handleBlur("email")}
-              />
-              {errors.email && (
-                <p className="error-text">{errors.email}</p>
-              )}
-            </div>
-
-            <div className="form-group password-group" style={{ position: 'relative' }}>
-              <label htmlFor="password">Password</label>
-              <input
-                type={showPassword ? "text" : "password"}
-                id="password"
-                name="password"
-                placeholder="Your password"
-                className={`form-input ${errors.password ? "input-error" : ""}`}
-                value={password}
-                onChange={handleChange}
-                onFocus={() => handleFocus("password")}
-                onBlur={() => handleBlur("password")}
-                autoComplete="off"
-              />
-              {/* Eye icon button */}
-              <button
-                type="button"
-                onClick={togglePasswordVisibility}
-                className="password-toggle-btn"
-                aria-label={showPassword ? "Hide password" : "Show password"}
-                style={{
-                  position: 'absolute',
-                  right: '10px',
-                  top: '35px',
-                  background: 'transparent',
-                  border: 'none',
-                  cursor: 'pointer',
-                  padding: 0,
-                }}
-              >
-                {showPassword ? (
-                  <EyeOff size={20} />
-                ) : (
-                  <Eye size={20} />
+              <div className="input-wrapper">
+                <input
+                  type="email"
+                  id="email"
+                  placeholder="example@gmail.com"
+                  className={`form-input ${
+                    shouldShowEmailErrors && !emailIsValid ? 'input-error' : ''
+                  }`}
+                  {...register('email', {
+                    required: 'Email is required',
+                    pattern: {
+                      value: emailRegex,
+                      message: 'Must be a valid email address'
+                    }
+                  })}
+                  onFocus={() => setFocusedField('email')}
+                  onBlur={() => setFocusedField('')}
+                />
+                {emailIsValid && email.length > 0 && (
+                  <CheckCircle 
+                    color="green" 
+                    size={20} 
+                    className="input-valid-icon"
+                    style={{ 
+                      right: '15px', 
+                      position: 'absolute', 
+                      top: '50%', 
+                      transform: 'translateY(-50%)',
+                      pointerEvents: 'none'
+                    }}
+                  />
                 )}
-              </button>
-
-              {errors.password && (
-                <p className="error-text">{errors.password}</p>
+              </div>
+              {shouldShowEmailErrors && !emailIsValid && (
+                <div className="validation-container">
+                  {renderValidationItem(emailIsValid, 'Must be a valid email address')}
+                </div>
               )}
             </div>
 
-            <a href="#" className="forgot-password">Forgot Password?</a>
+            {/* Password */}
+            <div className="form-group password-group">
+              <div className="password-header">
+                <label htmlFor="password">Password</label>
+              </div>
+              <div className="password-input-wrapper" style={{ position: 'relative' }}>
+                <input
+                  type={showPassword ? 'text' : 'password'}
+                  id="password"
+                  placeholder="Create a strong password"
+                  className={`form-input ${
+                    shouldShowPasswordErrors && !allPasswordValid ? 'input-error' : ''
+                  }`}
+                  {...register('password', passwordRules)}
+                  onFocus={() => setFocusedField('password')}
+                  onBlur={() => setFocusedField('')}
+                />
+                <span
+                  onClick={() => setShowPassword(!showPassword)}
+                  style={{
+                    position: 'absolute',
+                    right: '15px',
+                    top: '50%',
+                    transform: 'translateY(-50%)',
+                    cursor: 'pointer',
+                    color: '#666',
+                    zIndex: 2
+                  }}
+                  aria-label={showPassword ? 'Hide password' : 'Show password'}
+                >
+                  {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                </span>
+                {allPasswordValid && password.length > 0 && (
+                  <CheckCircle
+                    color="green"
+                    size={20}
+                    className="input-valid-icon"
+                    style={{ 
+                      right: '50px', 
+                      position: 'absolute', 
+                      top: '50%', 
+                      transform: 'translateY(-50%)',
+                      pointerEvents: 'none'
+                    }}
+                  />
+                )}
+              </div>
 
-            <button type="submit" className="sign-in-btn">Sign In</button>
+              {shouldShowPasswordErrors && (
+                <div className="validation-container">
+                  {renderValidationItem(passwordValidation.minLength, 'Minimum 8 characters')}
+                  {renderValidationItem(passwordValidation.hasUpperCase, 'At least 1 uppercase letter')}
+                  {renderValidationItem(passwordValidation.hasLowerCase, 'At least 1 lowercase letter')}
+                  {renderValidationItem(passwordValidation.hasNumber, 'At least 1 number')}
+                  {renderValidationItem(passwordValidation.hasSpecialChar, 'At least 1 special character (!@#$...)')}
+                </div>
+              )}
+            </div>
+
+            <button
+              type="submit"
+              className={`sign-in-btn ${!isValid ? 'disabled' : ''}`}
+              disabled={!isValid || isSubmitting}
+            >
+              {isSubmitting ? 'Creating Account...' : 'Create Account'}
+            </button>
           </form>
 
           <p className="signup-text">
-            want to signup? <a href="#" className="signup-link">Sign Up</a>
+            Already have an account?{' '}
+            <Link to="/login" className="signup-link">
+              Sign In
+            </Link>
           </p>
 
           <div className="legal-text">
-            <p>By signing in, you agree to the <a href="#">Terms of Service</a>, <a href="#">Acceptable Use Policy</a>, and <a href="#">Privacy Policy</a>.</p>
+            <p>
+              By signing up, you agree to the{' '}
+              <a href="#">Terms of Service</a>, <a href="#">Acceptable Use Policy</a>, and{' '}
+              <a href="#">Privacy Policy</a>.
+            </p>
           </div>
 
           <footer className="footer-links">
@@ -208,7 +302,6 @@ const Login = () => {
         </div>
       </div>
 
-      {/* Right Side - Video */}
       <div className="video-section">
         <div className="video-container">
           <video
@@ -229,4 +322,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Signup;
