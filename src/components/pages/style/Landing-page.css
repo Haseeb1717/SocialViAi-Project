@@ -1,0 +1,35 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+.landing-container {
+    /* Set your background image here */
+    background-image: url('/images/landingcover.png'); /* if in public/images */
+    background-size: cover;
+    background-repeat: no-repeat;
+    min-height: 100vh;
+    width: 100%;
+}
+
+/* Glassy header effect */
+.header {
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Hero Section */
+.hero-section {
+    padding-top: 120px; /* space for fixed header */
+    color: white;
+    text-align: center;
+    min-height: calc(100vh - 120px); /* fill remaining space */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2.5rem;
+}
+
+.hero-section span {
+    color: #ffd700; /* optional highlight */
+}

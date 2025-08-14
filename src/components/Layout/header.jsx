@@ -1,37 +1,85 @@
-import React from "react";
-import "./header.css";
+import React, { useState } from 'react';
+import './header.css';
 
-export default function Header() {
+const Header = () => {
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
+  const toggleSidebar = () => {
+    setIsSidebarOpen(!isSidebarOpen);
+  };
+
+  const closeSidebar = () => {
+    setIsSidebarOpen(false);
+  };
+
   return (
-    <header className="wb-header">
-      <div className="wb-container">
-        {/* Logo */}
-        <div className="wb-logo">
-          <span className="logo-icon">🪐</span>
-          <span className="logo-text">WriteBot</span>
+    <>
+      <header className="header">
+        {/* Logo Left */}
+        <div className="logo">
+          <div className="logo-icon">N</div>
+          <span>Nexpay</span>
         </div>
 
-        {/* Navigation */}
-        <nav className="wb-nav">
-          <a href="#home">Home</a>
-          <a href="#pricing">Pricing</a>
-          <a href="#blog">Blog</a>
-          <div className="wb-dropdown">
-            <button className="dropbtn">Pages ▾</button>
-            <div className="wb-dropdown-content">
-              <a href="#about">About Us</a>
-              <a href="#contact">Contact</a>
-              <a href="#faq">FAQ</a>
-            </div>
-          </div>
+        {/* Nav Menu Center - Hidden on mobile */}
+        <nav className="nav-center">
+          <ul className="nav-menu">
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Features</a></li>
+            <li><a href="#">Pricing</a></li>
+            <li><a href="#">Contact</a></li>
+          </ul>
         </nav>
 
-        {/* Auth buttons */}
-        <div className="wb-auth">
-          <button className="wb-login">Login</button>
-          <button className="wb-signup">Sign Up</button>
+        {/* Buttons Right - Hidden on mobile */}
+        <div className="nav-right">
+          <a href="#" className="login-btn">Login</a>
+          <a href="#" className="free-trial-btn">Free Trial</a>
+        </div>
+
+        {/* Mobile Menu Button */}
+        <button className="mobile-menu-btn" onClick={toggleSidebar}>
+          <span className="hamburger-line"></span>
+          <span className="hamburger-line"></span>
+          <span className="hamburger-line"></span>
+        </button>
+      </header>
+
+      {/* Mobile Sidebar Overlay */}
+      <div 
+        className={`sidebar-overlay ${isSidebarOpen ? 'active' : ''}`}
+        onClick={closeSidebar}
+      />
+
+      {/* Mobile Sidebar */}
+      <div className={`mobile-sidebar ${isSidebarOpen ? 'active' : ''}`}>
+        <div className="sidebar-header">
+          <div className="sidebar-logo">
+            <div className="logo-icon">N</div>
+            <span>Nexpay</span>
+          </div>
+          <button className="close-btn" onClick={closeSidebar}>
+            <span className="close-line"></span>
+            <span className="close-line"></span>
+          </button>
+        </div>
+
+        <nav className="sidebar-nav">
+          <ul className="sidebar-menu">
+            <li><a href="#" onClick={closeSidebar}>Home</a></li>
+            <li><a href="#" onClick={closeSidebar}>Features</a></li>
+            <li><a href="#" onClick={closeSidebar}>Pricing</a></li>
+            <li><a href="#" onClick={closeSidebar}>Contact</a></li>
+          </ul>
+        </nav>
+
+        <div className="sidebar-footer">
+          <a href="#" className="sidebar-login-btn" onClick={closeSidebar}>Login</a>
+          <a href="#" className="sidebar-trial-btn" onClick={closeSidebar}>Start Free Trial</a>
         </div>
       </div>
-    </header>
+    </>
   );
-}
+};
+
+export default Header;
