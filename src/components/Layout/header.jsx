@@ -17,8 +17,8 @@ const Header = () => {
       <header className="header">
         {/* Logo Left */}
         <div className="logo">
-          <div className="logo-icon">N</div>
-          <span>Nexpay</span>
+          <div className="logo-icon">S</div>
+          <span>Socialvi Ai</span>
         </div>
 
         {/* Nav Menu Center - Hidden on mobile */}
