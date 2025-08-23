@@ -353,7 +353,7 @@
 .center-row {
   display: flex;
   gap: 10px;
-  flex-wrap: nowrap;
+  flex-wrap:wrap;
   z-index: 2;
 }
 
@@ -403,5 +403,13 @@
   .center-row img {
     width: 80px;
     height: 80px;
+    margin: 0 auto;
   }
+}
+
+@media(max-width:1415px){
+  .side-img {
+    display: none;
+  }
+  
 }
