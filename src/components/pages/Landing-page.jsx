@@ -1,5 +1,5 @@
 import React from "react";
-import Header from "../Layout/header";  // or "../layout/Header" if capital H
+import Header from "../Layout/header";  
 import './style/Landing-page.css';
 import landingCover from '../../assets/landingcover.png';
 import instaMockup from '../../assets/insta mock.png';
