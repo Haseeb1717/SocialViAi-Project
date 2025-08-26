@@ -7,6 +7,7 @@ import pinterestMockup from '../../assets/pinterestmock.png';
  import tiktokMockup from '../../assets/titktokmock.png';
  import twitterMockup from '../../assets/twittermock.png';
  import fbMockup from '../../assets/fbmok.png';
+ import Sectionend from '../../assets/sectiondone.png';
 
 export default function LandingPage() {
   return (
@@ -73,6 +74,7 @@ export default function LandingPage() {
               <img src="https://via.placeholder.com/120" alt="" />
             </div>
           </div>
+<img src={Sectionend} alt="sectionendimg" className="endimg"/>
         </section>
       </div>
     </>

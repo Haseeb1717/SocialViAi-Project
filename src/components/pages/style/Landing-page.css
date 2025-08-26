@@ -3,12 +3,14 @@
   margin: 0;
   box-sizing: border-box;
 }
-
-.landing-container {
+body{
+  background-color: #f3f5f9;
+}.landing-container {
   background-image: url('/images/landingcover.png');
-  background-size: cover;
+  background-size: cover;      /* scales the image to fill the container */
   background-repeat: no-repeat;
-  min-height: 120vh;
+  background-position: center; /* center the image nicely */
+  min-height: 100vh;           /* ensures at least full viewport height */
   width: 100%;
   position: relative;
 }
@@ -412,4 +414,13 @@
     display: none;
   }
   
+}
+.endimg {
+  width: 100%;
+  max-width: 1600px; /* optional, prevents huge image on wide screens */
+  height: auto; /* maintain aspect ratio */
+  display: block;
+  margin: 10px auto 0; /* space from above section */
+  object-fit: cover; /* ensures it scales nicely */
+  z-index: 2;
 }
