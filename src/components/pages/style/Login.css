@@ -727,7 +727,7 @@ body {
 }
 
 .error-text {
-  color: #e74c3c;
+  color: #e74c3c; 
   font-size: 0.85rem;
   margin-top: 4px;
 }

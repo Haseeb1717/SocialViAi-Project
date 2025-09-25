@@ -12,7 +12,6 @@ import pinterestMockup from '../../assets/pinterestmock.png';
 export default function LandingPage() {
   return (
     <>
-    
       <div className="landing-container" style={{ backgroundImage: `url(${landingCover})` }}>
         <Header />
         <section className="hero-section">
@@ -21,12 +20,10 @@ export default function LandingPage() {
               Meet with <span className="the">Soci</span>
               <span className="chat">alvi</span>
               <span className="bot">Ai</span>
-            </h1>
-            
+            </h1>      
             <h2 className="subheading">
               Your AI Marketing Manager
             </h2>
-            
             <p className="hero-description">
               Transform your social media presence with AI-powered content creation. 
               Automatically reach the right audience, generate engaging posts, and create 
