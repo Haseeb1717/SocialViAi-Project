@@ -1,20 +1,47 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import LandingPage from './components/pages/Landing-page'; // import your landing page
+import LandingPage from './components/pages/Landing-page';
 import Login from './components/pages/Login';
 import Signup from './components/pages/Signup';
 import ForgetPassword from './components/pages/Forget-Password';
 import ResetPassword from './components/pages/Reset-Password';
+import UserDashboardLayout from "./components/Layout/UserDashboardLayout";
+
+
+// Example placeholder pages inside the dashboard
+const DashboardHome = () => <h2>Dashboard Home</h2>;
+const AudienceTargeting = () => <h2>Audience Targeting Page</h2>;
+const GenerateContent = () => <h2>Generate Content Page</h2>;
+const Scheduling = () => <h2>Scheduling Page</h2>;
+const AutoDM = () => <h2>Auto DM Page</h2>;
+const AIAdvisor = () => <h2>AI Advisor Page</h2>;
+const Payments = () => <h2>Payments Page</h2>;
+const Analytics = () => <h2>Analytics Page</h2>;
+const FAQ = () => <h2>FAQ Page</h2>;
 
 const App = () => {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<LandingPage />} /> {/* Landing page at root */}
-        <Route path="/login" element={<Login />} />  {/* Move login to /login */}
+        {/* Public Routes */}
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/forget-password" element={<ForgetPassword />} />
         <Route path="/reset-password" element={<ResetPassword />} />
+
+        {/* Dashboard Routes */}
+        <Route path="/dashboard" element={<UserDashboardLayout />}>
+          <Route index element={<DashboardHome />} />
+          <Route path="audience-targeting" element={<AudienceTargeting />} />
+          <Route path="generate-content" element={<GenerateContent />} />
+          <Route path="scheduling" element={<Scheduling />} />
+          <Route path="auto-dm" element={<AutoDM />} />
+          <Route path="ai-advisor" element={<AIAdvisor />} />
+          <Route path="payments" element={<Payments />} />
+          <Route path="analytics" element={<Analytics />} />
+          <Route path="faq" element={<FAQ />} />
+        </Route>
       </Routes>
     </Router>
   );
