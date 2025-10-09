@@ -776,3 +776,44 @@ body {
     padding: 20px;
   }
 }
+
+.cta-button {
+  padding: 10px 24px;
+  background: linear-gradient(135deg, #2563eb,  #8b5cf6);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: var(--shadow-md);
+}
+
+.cta-button:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+@media(max-width:950px){
+  .cta-button{
+    display: none;
+  }
+}
+@media(max-width:764px){
+  .cta-button{
+    display: none;
+  }
+}
+#cta-button{
+  padding: 10px 24px;
+  background: linear-gradient(135deg, #2563eb,  #8b5cf6);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: var(--shadow-md);
+ 
+}

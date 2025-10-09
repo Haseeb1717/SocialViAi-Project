@@ -21,6 +21,8 @@ const AutoDM = () => <h2>Auto DM Page</h2>;
 const AIAdvisor = () => <h2>AI Advisor Page</h2>;
 const Payments = () => <h2>Payments Page</h2>;
 const Analytics = () => <h2>Analytics Page</h2>;
+const Profile = () => <h2>Profile Page</h2>;
+const Settings = () => <h2>Settings Page</h2>;
 const FAQ = () => <h2>FAQ Page</h2>;
 
 const App = () => {
@@ -44,11 +46,15 @@ const App = () => {
           <Route path="ai-advisor" element={<AIAdvisor />} />
           <Route path="payments" element={<Payments />} />
           <Route path="analytics" element={<Analytics />} />
+          <Route path="profile" element={<Profile />} />
+          <Route path="settings" element={<Settings />} />
           <Route path="faq" element={<FAQ />} />
+    
         </Route>
 
         {/* Fallback Route */}
         <Route path="*" element={<h2>404 - Page Not Found</h2>} />
+    
       </Routes>
     </Router>
   );

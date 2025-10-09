@@ -1,11 +1,10 @@
 import { useState, useEffect } from 'react';
 import { Outlet, useNavigate, useLocation } from 'react-router-dom';
 import './UserDashboardLayout.css';
-
 import {
   Menu, X, Bell, Mail, User, LogOut, HelpCircle,
   Sun, Moon, LayoutDashboard, CreditCard, BarChart3,
-  Target, Sparkles, Calendar, MessageSquare, Zap
+  Target, Sparkles, Calendar, MessageSquare, Zap, Settings
 } from 'lucide-react';
 
 const UserDashboardLayout = () => {
@@ -43,6 +42,12 @@ const UserDashboardLayout = () => {
     } else if (path.includes('/dashboard/analytics')) {
       setActiveTab('Analytics');
       setActiveSidebarItem('');
+    } else if (path.includes('/dashboard/profile')) {
+      setActiveTab('');
+      setActiveSidebarItem('');
+    } else if (path.includes('/dashboard/settings')) {
+      setActiveTab('');
+      setActiveSidebarItem('');
     } else {
       // It's a sidebar route
       setActiveTab('');
@@ -73,6 +78,11 @@ const UserDashboardLayout = () => {
   const closeMobileSidebar = () => {
     setMobileSidebarOpen(false);
     document.body.style.overflow = '';
+  };
+
+  const handleDropdownItemClick = (route) => {
+    navigate(route);
+    setShowUserDropdown(false);
   };
 
   // Sidebar routes
@@ -132,6 +142,8 @@ const UserDashboardLayout = () => {
               </div>
               <span className="sidebar-item-text">Faq</span>
             </div>
+            <button className="sidebar-item-cta-button" id='cta-button'>✨ Upgrade to Pro</button>
+
             <div className="theme-toggle">
               <div
                 className={`sidebar-item ${theme === 'light' ? 'theme-active' : ''}`}
@@ -177,6 +189,8 @@ const UserDashboardLayout = () => {
           </div>
           <div className="nav-right">
             {/* Notifications */}
+            <button className="cta-button">✨ Upgrade to Pro</button>
+
             <div className="nav-icon">
               <Bell size={20} />
               <div className="notification-badge"></div>
@@ -196,7 +210,12 @@ const UserDashboardLayout = () => {
               </div>
               {showUserDropdown && (
                 <div className="dropdown-content">
-                  <a href="#"><User size={18} /> Profile</a>
+                  <a onClick={() => handleDropdownItemClick('/dashboard/profile')}>
+                    <User size={18} /> Profile
+                  </a>
+                  <a onClick={() => handleDropdownItemClick('/dashboard/settings')}>
+                    <Settings size={18} /> Settings
+                  </a>
                   <a href="#"><LogOut size={18} /> Logout</a>
                 </div>
               )}
