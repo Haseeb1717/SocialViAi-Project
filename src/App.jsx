@@ -14,8 +14,12 @@ import UserDashboardLayout from './components/Layout/UserDashboardLayout';
 
 // Dashboard Pages
 import DashboardHome from './components/pages/Dashboard/DashboardHome';
-const AudienceTargeting = () => <h2>Audience Targeting Page</h2>;
-const GenerateContent = () => <h2>Generate Content Page</h2>;
+
+// //Audience targeting 
+import AudienceTargeting from './components/pages/Dashboard/AudienceTarget'; 
+import ContentGenerator from "./components/pages/Dashboard/GenrateContent"; // or rename the file
+
+
 const Scheduling = () => <h2>Scheduling Page</h2>;
 const AutoDM = () => <h2>Auto DM Page</h2>;
 const AIAdvisor = () => <h2>AI Advisor Page</h2>;
@@ -40,12 +44,13 @@ const App = () => {
         <Route path="/dashboard" element={<UserDashboardLayout />}>
           <Route index element={<DashboardHome />} /> {/* ✅ Uses your new file */}
           <Route path="audience-targeting" element={<AudienceTargeting />} />
-          <Route path="generate-content" element={<GenerateContent />} />
+          <Route path="generate-content" element={<ContentGenerator/>}/>
           <Route path="scheduling" element={<Scheduling />} />
           <Route path="auto-dm" element={<AutoDM />} />
           <Route path="ai-advisor" element={<AIAdvisor />} />
           <Route path="payments" element={<Payments />} />
-          <Route path="analytics" element={<Analytics />} />
+          <Route path="analytics" element={<Analytics />} />sssss
+
           <Route path="profile" element={<Profile />} />
           <Route path="settings" element={<Settings />} />
           <Route path="faq" element={<FAQ />} />
