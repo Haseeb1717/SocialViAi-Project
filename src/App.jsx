@@ -18,7 +18,7 @@ import DashboardHome from './components/pages/Dashboard/DashboardHome';
 // //Audience targeting 
 import AudienceTargeting from './components/pages/Dashboard/AudienceTarget'; 
 import ContentGenerator from "./components/pages/Dashboard/GenrateContent"; // or rename the file
-
+import AutoDMResponse from './components/pages/Dashboard/AutoDMResponse';
 
 const Scheduling = () => <h2>Scheduling Page</h2>;
 const AutoDM = () => <h2>Auto DM Page</h2>;
@@ -46,10 +46,10 @@ const App = () => {
           <Route path="audience-targeting" element={<AudienceTargeting />} />
           <Route path="generate-content" element={<ContentGenerator/>}/>
           <Route path="scheduling" element={<Scheduling />} />
-          <Route path="auto-dm" element={<AutoDM />} />
+          <Route path="auto-dm" element={<AutoDMResponse/>} />
           <Route path="ai-advisor" element={<AIAdvisor />} />
           <Route path="payments" element={<Payments />} />
-          <Route path="analytics" element={<Analytics />} />sssss
+          <Route path="analytics" element={<Analytics />} />
 
           <Route path="profile" element={<Profile />} />
           <Route path="settings" element={<Settings />} />
