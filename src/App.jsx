@@ -20,6 +20,7 @@ import AudienceTargeting from './components/pages/Dashboard/AudienceTarget';
 import ContentGenerator from "./components/pages/Dashboard/GenrateContent"; // or rename the file
 import AutoDMResponse from './components/pages/Dashboard/AutoDMResponse';
 import AiAdviser from './components/pages/Dashboard/ AiAdviser';
+import Payment from './components/pages/Dashboard/Payment';
 
 const Scheduling = () => <h2>Scheduling Page</h2>;
 const AutoDM = () => <h2>Auto DM Page</h2>;
@@ -49,7 +50,7 @@ const App = () => {
           <Route path="scheduling" element={<Scheduling />} />
           <Route path="auto-dm" element={<AutoDMResponse/>} />
           <Route path="ai-advisor" element={<AiAdviser />} />
-          <Route path="payments" element={<Payments />} />
+          <Route path="payments" element={<Payment />} />
           <Route path="analytics" element={<Analytics />} />
 
           <Route path="profile" element={<Profile />} />
