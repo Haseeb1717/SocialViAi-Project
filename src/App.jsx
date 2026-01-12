@@ -15,19 +15,19 @@ import UserDashboardLayout from './components/Layout/UserDashboardLayout';
 // Dashboard Pages
 import DashboardHome from './components/pages/Dashboard/DashboardHome';
 
-// //Audience targeting 
+ //Audience targeting 
 import AudienceTargeting from './components/pages/Dashboard/AudienceTarget'; 
 import ContentGenerator from "./components/pages/Dashboard/GenrateContent"; // or rename the file
 import AutoDMResponse from './components/pages/Dashboard/AutoDMResponse';
 import AiAdviser from './components/pages/Dashboard/ AiAdviser';
 import Payment from './components/pages/Dashboard/Payment';
+import Analytics from './components/pages/Dashboard/Analytics';
+import Profile from './components/pages/Dashboard/Profile';
 
 const Scheduling = () => <h2>Scheduling Page</h2>;
 const AutoDM = () => <h2>Auto DM Page</h2>;
 const AIAdvisor = () => <h2>AI Advisor Page</h2>;
 const Payments = () => <h2>Payments Page</h2>;
-const Analytics = () => <h2>Analytics Page</h2>;
-const Profile = () => <h2>Profile Page</h2>;
 const Settings = () => <h2>Settings Page</h2>;
 const FAQ = () => <h2>FAQ Page</h2>;
 
@@ -52,8 +52,8 @@ const App = () => {
           <Route path="ai-advisor" element={<AiAdviser />} />
           <Route path="payments" element={<Payment />} />
           <Route path="analytics" element={<Analytics />} />
-
           <Route path="profile" element={<Profile />} />
+
           <Route path="settings" element={<Settings />} />
           <Route path="faq" element={<FAQ />} />
     
