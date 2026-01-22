@@ -8,6 +8,7 @@ import Login from './components/pages/Login';
 import Signup from './components/pages/Signup';
 import ForgetPassword from './components/pages/Forget-Password';
 import ResetPassword from './components/pages/Reset-Password';
+import VerifyEmail from './components/pages/VerifyEmail';
 
 // Dashboard Layout
 import UserDashboardLayout from './components/Layout/UserDashboardLayout';
@@ -23,13 +24,14 @@ import AiAdviser from './components/pages/Dashboard/ AiAdviser';
 import Payment from './components/pages/Dashboard/Payment';
 import Analytics from './components/pages/Dashboard/Analytics';
 import Profile from './components/pages/Dashboard/Profile';
+import Faq from './components/pages/Dashboard/Faq';
+// import EmailVerified from './components/pages/EmailVerified';
+
 
 const Scheduling = () => <h2>Scheduling Page</h2>;
 const AutoDM = () => <h2>Auto DM Page</h2>;
 const AIAdvisor = () => <h2>AI Advisor Page</h2>;
 const Payments = () => <h2>Payments Page</h2>;
-const Settings = () => <h2>Settings Page</h2>;
-const FAQ = () => <h2>FAQ Page</h2>;
 
 const App = () => {
   return (
@@ -41,6 +43,10 @@ const App = () => {
         <Route path="/signup" element={<Signup />} />
         <Route path="/forget-password" element={<ForgetPassword />} />
         <Route path="/reset-password" element={<ResetPassword />} />
+        {/* <Route path="/verify-email/:id/:hash" element={<VerifyEmail />} />
+        <Route path="/verify-success" element={<EmailVerified />} /> */}
+        <Route path="/verify-email/:id/:hash" element={<VerifyEmail />} />
+
 
         {/* Dashboard Routes */}
         <Route path="/dashboard" element={<UserDashboardLayout />}>
@@ -53,9 +59,7 @@ const App = () => {
           <Route path="payments" element={<Payment />} />
           <Route path="analytics" element={<Analytics />} />
           <Route path="profile" element={<Profile />} />
-
-          <Route path="settings" element={<Settings />} />
-          <Route path="faq" element={<FAQ />} />
+           <Route path="faq" element={<Faq />} />
     
         </Route>
 

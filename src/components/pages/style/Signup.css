@@ -6,14 +6,17 @@
 
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'SF Pro Display', Roboto, 'Helvetica Neue', Arial, sans-serif;
-  background: linear-gradient(135deg, #fde7f5, #e5f1ff);
+  /* background: linear-gradient(135deg, #fde7f5, #e5f1ff); */
+  background:black;
   min-height: 100vh;
   overflow-x: hidden;
 }
 
 .login-container {
   min-height: 100vh;
-  background: linear-gradient(135deg, #fde7f5, #e5f1ff);
+  /* background: linear-gradient(135deg, #fde7f5, #e5f1ff); */
+  background:black;
+ 
   display: flex;
   align-items: center;
   justify-content: center;
@@ -28,11 +31,13 @@ body {
   left: 0;
   width: 100%;
   height: 100%;
-  background: 
+  /* background: 
     radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.15) 0%, transparent 50%),
     radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.15) 0%, transparent 50%),
-    radial-gradient(circle at 40% 40%, rgba(120, 200, 255, 0.1) 0%, transparent 50%);
-  pointer-events: none;
+    radial-gradient(circle at 40% 40%, rgba(120, 200, 255, 0.1) 0%, transparent 50%); */
+    background:black;
+ 
+    pointer-events: none;
 }
 
 .login-wrapper {
@@ -42,7 +47,9 @@ body {
   display: flex;
   border-radius: 0;
   overflow: hidden;
-  background: rgba(255, 255, 255, 0.7);
+  /* background: rgba(255, 255, 255, 0.7); */
+  background:black;
+ 
   backdrop-filter: blur(20px) saturate(180%);
   border: 1px solid rgba(255, 255, 255, 0.25);
   position: relative;
@@ -55,11 +62,13 @@ body {
   align-items: center;
   justify-content: center;
   padding: 20px 32px;
-  background: linear-gradient(135deg, 
+  /* background: linear-gradient(135deg, 
     rgba(253, 242, 248, 0.9) 0%, 
     rgba(240, 249, 255, 0.9) 50%, 
     rgba(250, 232, 255, 0.9) 100%
-  );
+  ); */
+  background:black;
+ 
   backdrop-filter: blur(40px) saturate(200%);
   position: relative;
 }

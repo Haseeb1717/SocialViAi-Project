@@ -1,7 +1,26 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import './DashboardStyle/DashboardHome.css';
+import Toast from "../../common/Toast.jsx"; // <-- fixed path
 
 const DashboardHome = () => {
+  const location = useLocation();
+  const [toast, setToast] = useState({ message: '', type: '' });
+
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    if (params.get('verified') === '1') {
+      setToast({ message: 'Your email has been verified!', type: 'success' });
+
+      // Optional: automatically remove toast after 3 seconds
+      const timer = setTimeout(() => {
+        setToast({ message: '', type: '' });
+      }, 3000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [location]);
+
   return (
     <>
       <div className="content-area">
@@ -39,11 +58,16 @@ const DashboardHome = () => {
             Here's what's happening with your business today.
           </p>
         </div>
-</div>
-      
-      {/* Scoped CSS */}
-      <style>{`
-      `}</style>
+      </div>
+
+      {/* Toast Component */}
+      {toast.message && (
+        <Toast
+          message={toast.message}
+          type={toast.type}
+          onClose={() => setToast({ message: '', type: '' })}
+        />
+      )}
     </>
   );
 };
