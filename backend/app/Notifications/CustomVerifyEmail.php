@@ -22,14 +22,11 @@ use Illuminate\Auth\Notifications\VerifyEmail as BaseVerifyEmail;
 //     }
 // }
 
-
 class CustomVerifyEmail extends BaseVerifyEmail
 {
     protected function verificationUrl($notifiable)
     {
-        $frontend = 'https://socialviaiproject-ikwn--5173--31fc58ec.local-credentialless.webcontainer.io';
-        $hash = sha1($notifiable->getEmailForVerification());
-
-        return "{$frontend}/verify-email/{$notifiable->getKey()}/{$hash}";
+        $frontendUrl = 'https://socialviaiproject-ikwn--5173--31fc58ec.local-credentialless.webcontainer.io';
+        return $frontendUrl . "/verify-email/" . $notifiable->getKey() . "/" . sha1($notifiable->email);
     }
 }
