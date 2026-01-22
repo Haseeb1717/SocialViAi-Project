@@ -6,10 +6,13 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Auth\Events\Registered;
+use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Mail;
 
 class AuthController extends Controller
 {
-    // Register user
+    // Register new user
     public function register(Request $request)
     {
         $request->validate([
@@ -28,72 +31,66 @@ class AuthController extends Controller
         event(new Registered($user));
 
         return response()->json([
-            'message' => 'User registered successfully. Please check your email for verification.'
+            'status' => 'success',
+            'message' => 'User registered successfully. Please check your email to verify your account.'
         ], 201);
     }
-// public function verifyEmail($id, $hash)
-// {
-//     $user = \App\Models\User::findOrFail($id);
 
-//     if (! hash_equals(sha1($user->getEmailForVerification()), $hash)) {
-//         return view('verify-email', [
-//             'message' => 'Invalid verification link',
-//             'type' => 'error'
-//         ]);
-//     }
+    // Verify email link
+    public function verifyEmail(Request $request, $id, $hash)
+    {
+        $user = User::findOrFail($id);
 
-//     if ($user->hasVerifiedEmail()) {
-//         return view('verify-email', [
-//             'message' => 'Email already verified! You can now log in.',
-//             'type' => 'success'
-//         ]);
-//     }
+        if (!hash_equals((string) $hash, sha1($user->getEmailForVerification()))) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Invalid or expired verification link.'
+            ], 403);
+        }
 
-//     $user->markEmailAsVerified();
+        if (!$user->hasVerifiedEmail()) {
+            $user->markEmailAsVerified();
+        }
 
-//     return view('verify-email', [
-//         'message' => 'Email verified successfully! Redirecting...',
-//         'type' => 'success',
-//     'redirect' => 'https://socialviaiproject-ikwn--5173--31fc58ec.local-credentialless.webcontainer.io/dashboard'
-
-//         ]);
-// }
-
-
-
-// public function verifyEmail($id, $hash)
-// {
-//     $user = \App\Models\User::findOrFail($id);
-
-//     if (! hash_equals(sha1($user->getEmailForVerification()), $hash)) {
-//         return response()->json(['message' => 'Invalid verification link'], 400);
-//     }
-
-//     if ($user->hasVerifiedEmail()) {
-//         return redirect('https://socialviaiproject-ikwn--5173--31fc58ec.local-credentialless.webcontainer.io/dashboard');
-//     }
-
-//     $user->markEmailAsVerified();
-
-//     return redirect('https://socialviaiproject-ikwn--5173--31fc58ec.local-credentialless.webcontainer.io/dashboard');
-// }
-
-public function verifyEmail(Request $request, $id, $hash)
-{
-    $user = \App\Models\User::findOrFail($id);
-
-    if (! hash_equals((string) $hash, sha1($user->getEmailForVerification()))) {
-        abort(403, 'Invalid verification link');
+        // Redirect user to live frontend
+        return redirect('https://socialviai-project-production.up.railway.app/verify-success');
     }
 
-    if (!$user->hasVerifiedEmail()) {
-        $user->markEmailAsVerified();
+    // Login user
+    public function login(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required|string'
+        ]);
+
+        $user = User::where('email', $request->email)->first();
+
+        if (!$user || !Hash::check($request->password, $user->password)) {
+            return response()->json(['message' => 'Invalid credentials'], 401);
+        }
+
+        if (!$user->hasVerifiedEmail()) {
+            return response()->json(['message' => 'Please verify your email first.'], 403);
+        }
+
+        $token = $user->createToken('auth_token')->plainTextToken;
+
+        return response()->json([
+            'status' => 'success',
+            'user' => $user,
+            'token' => $token
+        ]);
     }
 
-    // Redirect to dashboard with a query param
-    return redirect('https://socialviaiproject-ikwn--5173--31fc58ec.local-credentialless.webcontainer.io/dashboard?verified=1');
+    // Logout user
+    public function logout(Request $request)
+    {
+        $request->user()->tokens()->delete();
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Logged out successfully'
+        ]);
+    }
 }
-
-
-}
-
