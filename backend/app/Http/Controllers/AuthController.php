@@ -28,12 +28,13 @@ class AuthController extends Controller
         ]);
 
         // Fire Laravel's built-in registration event
-        // This automatically sends the verification email
+        // Sends verification email automatically
         event(new Registered($user));
 
         return response()->json([
             'status' => 'success',
-            'message' => 'Registration successful. Please check your email to verify your account.'
+            'message' => 'Registration successful. Please check your email to verify your account.',
+            'user' => $user
         ], 201);
     }
 
@@ -49,7 +50,7 @@ class AuthController extends Controller
 
         $user = User::where('email', $validated['email'])->first();
 
-        if (! $user || ! Hash::check($validated['password'], $user->password)) {
+        if (!$user || !Hash::check($validated['password'], $user->password)) {
             return response()->json([
                 'status' => 'error',
                 'message' => 'Invalid credentials.'
@@ -57,7 +58,7 @@ class AuthController extends Controller
         }
 
         // Prevent login if email not verified
-        if (! $user->hasVerifiedEmail()) {
+        if (!$user->hasVerifiedEmail()) {
             return response()->json([
                 'status' => 'error',
                 'message' => 'Please verify your email before logging in.'
@@ -71,8 +72,8 @@ class AuthController extends Controller
             'status' => 'success',
             'message' => 'Login successful.',
             'user' => $user,
-            'token' => $token,
-        ]);
+            'token' => $token
+        ], 200);
     }
 
     /**
@@ -85,6 +86,6 @@ class AuthController extends Controller
         return response()->json([
             'status' => 'success',
             'message' => 'Logged out successfully.'
-        ]);
+        ], 200);
     }
 }
