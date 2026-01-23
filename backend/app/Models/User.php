@@ -1,46 +1,44 @@
 <?php
 
-namespace App\Models;
+namespace App\Notifications;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens;
-use App\Notifications\CustomVerifyEmail;
+use Illuminate\Auth\Notifications\VerifyEmail;
+use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\URL;
 
-class User extends Authenticatable implements MustVerifyEmail
+class CustomVerifyEmail extends VerifyEmail
 {
-    use HasApiTokens, Notifiable;
-
     /**
-     * The attributes that are mass assignable.
+     * Build the mail representation of the notification.
      */
-    protected $fillable = [
-        'name',
-        'email',
-        'password',
-    ];
-
-    /**
-     * The attributes that should be hidden for serialization.
-     */
-    protected $hidden = [
-        'password',
-        'remember_token',
-    ];
-
-    /**
-     * The attributes that should be cast.
-     */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-    ];
-
-    /**
-     * Send the custom email verification notification.
-     */
-    public function sendEmailVerificationNotification()
+    public function toMail($notifiable)
     {
-        $this->notify(new CustomVerifyEmail);
+        // Generate a signed URL valid for 60 minutes
+        $verificationUrl = $this->verificationUrl($notifiable);
+
+        return (new MailMessage)
+            ->subject('Verify Your Email Address - SocialVi AI')
+            ->greeting('Hello ' . $notifiable->name . ',')
+            ->line('Thank you for signing up for SocialVi AI!')
+            ->line('Please click the button below to verify your email address and activate your account.')
+            ->action('Verify Email', $verificationUrl)
+            ->line('If you did not create an account, please ignore this email.');
+    }
+
+    /**
+     * Create a temporary signed verification URL.
+     */
+    protected function verificationUrl($notifiable)
+    {
+        return URL::temporarySignedRoute(
+            'verification.verify', // name from routes/api.php
+            Carbon::now()->addMinutes(Config::get('auth.verification.expire', 60)),
+            [
+                'id'   => $notifiable->getKey(),
+                'hash' => sha1($notifiable->getEmailForVerification()),
+            ]
+        );
     }
 }
