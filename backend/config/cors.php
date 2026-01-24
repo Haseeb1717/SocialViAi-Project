@@ -4,31 +4,37 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Cross-Origin Resource Sharing (CORS) Configuration
+    | Cross-Origin Resource Sharing (CORS) Settings
     |--------------------------------------------------------------------------
-    |
-    | Here you may configure your settings for cross-origin resource sharing
-    | or "CORS". This determines what cross-origin operations may execute
-    | in web browsers. You are free to adjust these settings as needed.
-    |
-    | To learn more: https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS
-    |
     */
 
-    'paths' => ['api/*', 'sanctum/csrf-cookie'],
+    // Include both API routes and the default verification route
+    'paths' => [
+        'api/*',
+        'email/verify/*',
+        'sanctum/csrf-cookie',
+    ],
 
+    // Allow all HTTP methods (GET, POST, PUT, DELETE, OPTIONS)
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => ['*'],
+    // List all frontend origins that will call your API
+    'allowed_origins' => [
+        'https://socialviai-project-production.up.railway.app', // Your production frontend
+        'http://localhost:3000', // For local React testing
+    ],
 
     'allowed_origins_patterns' => [],
 
+    // Allow all headers from frontend requests
     'allowed_headers' => ['*'],
 
-    'exposed_headers' => [],
+    // Expose the Authorization header so React can read tokens
+    'exposed_headers' => ['Authorization'],
 
+    // Keep preflight cache short for development; you can increase later
     'max_age' => 0,
 
-    'supports_credentials' => false,
-
+    // Enable cookies and credentials for Sanctum authentication
+    'supports_credentials' => true,
 ];
